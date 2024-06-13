@@ -12,3 +12,4 @@ function applyWatermark(fileName) {
 function getImageMetadata(fileName) {
 
 }
+// Methods
