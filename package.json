@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "koa": "^2.15.3",
+    "watermark": "^1.0.2"
+  }
+}
