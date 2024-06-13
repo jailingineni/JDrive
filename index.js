@@ -5,10 +5,10 @@ function getPictureById(fileName )
 {
 
 }
-function applyWatermark(fileName:string) {
+function applyWatermark(fileName) {
 
 }
 
-function getImageMetadata(fileName:string) {
+function getImageMetadata(fileName) {
 
 }
