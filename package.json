@@ -1,5 +1,7 @@
 {
   "dependencies": {
+    "exif": "^0.6.0",
+    "jimp-watermark": "^1.1.0",
     "koa": "^2.15.3",
     "watermark": "^1.0.2"
   }
