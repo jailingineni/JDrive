@@ -3,7 +3,7 @@ const app = express()
 const port = 3000
 const fs = require('fs');
 const Jimp = require("jimp");
-const {getPictureById, getImageMetadata, applyWatermark} = require('./index.js');
+const {getPictureById, getImageMetadata, applyWatermark, getListOfPictures} = require('./index.js');
 
 
 // GET image/<filename>
@@ -16,8 +16,8 @@ const {getPictureById, getImageMetadata, applyWatermark} = require('./index.js')
  // error codes
  // render images in response (see how to return b64)
 
- // 
- // uploading with a post url
+ // GET image/list
+    // returns an list of images in the directory []
 
 
 
@@ -38,6 +38,11 @@ try{
 app.get('/', (req, res) => {
     res.send("Hi");
   })
+
+  app.get('/image/list', (req, res) => {
+    const filenames = getListOfPictures();
+    res.send(filenames);
+});
 
   app.get('/image/:filename', (req, res) => {
     const filename = req.params.filename;

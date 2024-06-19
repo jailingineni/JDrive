@@ -4,6 +4,7 @@ fileName = string
 const fs = require ("fs"); //import filesystem module
 const path = require('path');
 const jimp = require('jimp-watermark');
+const { error } = require("console");
 var ExifImage = require('exif').ExifImage;
 
 function getPictureById(fileName, folder) 
@@ -79,14 +80,27 @@ function getImageMetadata(fileName) {
     }
 
 }
-getPictureById('../Sample Images/canon-ixus');
+getListOfPictures();
 
 
 function getListOfPictures(){
-    // returns a list of all the pictures in Sample Images
+    const testFolder = './Sample Images/';
+    if (testFolder == false) {
+        console.log ("Directory is Invalid")
+        throw new Error ('Cannot Find Directory');
+    }
+    let fileList = [];
+    
+    fs.readdirSync(testFolder).forEach(file => {
+        fileList.push(file);
+    });
+    return fileList;
+   
+
 
 
 }
+
 
 
 
