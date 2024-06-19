@@ -1,6 +1,16 @@
 {
   "dependencies": {
+    "exif": "^0.6.0",
+    "express": "^4.19.2",
+    "jest": "^29.7.0",
+    "jimp-watermark": "^1.1.0",
     "koa": "^2.15.3",
     "watermark": "^1.0.2"
+  },
+  "scripts": {
+    "devStart": "nodemon api.js"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.3"
   }
 }
