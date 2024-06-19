@@ -1,52 +1,96 @@
 /*
 fileName = string
 */
-function getPictureById(fileName) 
+const fs = require ("fs"); //import filesystem module
+const path = require('path');
+const jimp = require('jimp-watermark');
+var ExifImage = require('exif').ExifImage;
+
+function getPictureById(fileName, folder) 
 {
-    const fs = require ("fs"); //import filesystem module
-    const path = require('path');
     const directoryPath = 'Sample Images'
-    const filePath = path.join(directoryPath, fileName);
-    try {
-        const data = fs.readFileSync(filePath); // variable data stores 
-        const base64Data = data.toString('base64');
-        console.log('64 Data', base64Data);
-        return base64Data;
-    } catch (err) {
-        console.log('Error reading file:', err);
+    
+    if (folder) {
+        const directoryPath = folder
+    }
+        const filePath = path.join(directoryPath, fileName + '.jpg');
+    
+    
+    if (fs.existsSync (filePath)) {
+        try {
+
+        const data = fs.readFileSync(filePath, "base64"); // variable data stores 
+        const buffer = Buffer.from(data, "base64");
+        return buffer;
+    } catch(error) {
+        console.error('Error Converting image', error);
+        throw new Error ('Error Converting image');
+    }
+
+    }
+    else {
+        console.log('File or Path does not Exist');
+        throw new Error('File or Path does not Exist');
     }
 }
 function applyWatermark(fileName) {
 
-   const jimp = require('jimp-watermark');
-   const path = require('path');
    const directoryPath = 'Sample Images'
    const outputDirectory = 'outputs';
-   const filePath = path.join(directoryPath, fileName);
-   const outputFilePath = path.join(outputDirectory, fileName);
-   let options = {
-    'text': 'JDRIVE',
-    'textSize' : 7, 
-    'opacity' : 0,
-    'dstPath' : './outputs'
-
-   }
-   
-   jimp.addTextWatermark(filePath, options)
+   const filePath = path.join(directoryPath, fileName + '.jpg');
+   const outputFilePath = path.join(outputDirectory, fileName + '.jpg');
+   if (fs.existsSync (filePath)) {
+    try {
+        let options = {
+            'text': 'JDRIVE',
+            'textSize' : 7, 
+            'opacity' : 0,
+            'dstPath' : outputFilePath
+           }
+           
+           jimp.addTextWatermark(filePath, options)
+           return outputDirectory;
+    } catch (error) {
+        console.error('Error Processing image', error);
+        throw new Error ('Error Processing image');
+    } 
+    } else {
+        console.log('File or Path does not Exist');
+        throw new Error('File or Path does not Exist');
+    }
 }
 
 function getImageMetadata(fileName) {
-
-    var ExifImage = require('exif').ExifImage;
-    const path = require('path');
+    
     const directoryPath = 'Sample Images'
-    const filePath = path.join(directoryPath, fileName);
+    const filePath = path.join(directoryPath, fileName + '.jpg');
+    if (fs.existsSync (filePath)) {
+        try {
     new ExifImage({ image : filePath }, function (error, exifData) {
-        console.log(exifData);
     });
-   
+    } catch (error) {
+        console.error('Error Processing Metadata', error);
+        throw new Error ('Error Processing Metadata');
+    }
+    }
+    else {
+        console.log ('File or Path does not Exist');
+        return false;
+    }
+
+}
+getPictureById('../Sample Images/canon-ixus');
+
+
+function getListOfPictures(){
+    // returns a list of all the pictures in Sample Images
+
 
 }
 
-applyWatermark("canon-ixus.jpg");
-// Methods
+
+
+
+module.exports = {
+    getImageMetadata, getPictureById, applyWatermark, getListOfPictures
+}
