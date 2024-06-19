@@ -94,6 +94,9 @@ function getListOfPictures(){
     fs.readdirSync(testFolder).forEach(file => {
         fileList.push(file);
     });
+    for (let i = 0; i < fileList.length; i++) {
+        fileList[i] = fileList[i].replaceAll('.jpg', '');
+    }
     return fileList;
    
 
