@@ -1,0 +1,40 @@
+.imageTitle {
+
+    
+}
+
+.all-card {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+.custom-card {
+width: 300px; /* Set the desired width */
+height: 225px; /* Set the desired height */
+margin-bottom: 20px;
+border: 1px solid #ccc;
+border-radius: 10px;
+box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+transition: transform 0.3s;
+
+}
+.custom-card:hover {
+    transform: scale(1.05);
+}
+
+.card-image {
+   max-height: 500px;
+
+  }
+  
+  .card-title {
+    font-size: 1.2em;
+  }
+  
+  .card-subtitle {
+    font-size: 0.9em;
+    color: #666;
+  }

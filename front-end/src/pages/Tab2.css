@@ -1,0 +1,24 @@
+.image-detail {
+    display:flex; 
+    margin-top: 200px;
+    margin-left: 20px;
+    justify-content: center;
+    align-items : flex-end;
+    height: 500px;
+    width: 500px;
+}
+
+.view-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+
+}
+
+.metadata {
+    margin-left: 100px;
+    display: flex;
+    flex-direction: column;
+}

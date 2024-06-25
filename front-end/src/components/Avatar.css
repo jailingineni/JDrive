@@ -1,0 +1,14 @@
+.AvatarStyle {
+    display: flex;
+    justify-content: space-between;
+}
+
+.circle {
+    display: flex;
+    flex-direction: row;
+    width: 100px;
+    height: 100px;
+    background-color: green;
+    border-radius: 50%;
+
+  }
