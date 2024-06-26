@@ -20,10 +20,12 @@ import './Pill.css'; // Import the CSS file for styling
 //     );
 // }
 
-function Pill()  {
+function Pill(props)  {
     const [state, setState] = useState<boolean>(false)
     const [state1, setState1] = useState<boolean>(false)
     const [state2, setState2] = useState<boolean>(false)
+    const [filteredCards, setFilteredCards] = useState(props);
+
     
 return (
     <div className = "displayContainer">

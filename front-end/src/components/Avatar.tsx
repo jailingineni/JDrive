@@ -9,7 +9,8 @@ function Avatar(props) {
             {result.map((el) =>
                 <div className="circle">
                     <p className="text">{el}</p>
-                </div>
+                    </div>
+               
             )}
         </div>
     );
