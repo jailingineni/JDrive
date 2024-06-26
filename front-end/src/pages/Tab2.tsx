@@ -1,9 +1,17 @@
+// Tab2.tsx
+import React from 'react';
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonImg } from '@ionic/react';
-import ExploreContainer from '../components/ExploreContainer';
+import { Redirect, useLocation } from 'react-router-dom';
 import './Tab2.css';
-import { cards } from './data'; 
+import Back from '../components/Back'
 
 const Tab2: React.FC = () => {
+  const location = useLocation<{ selectedCard: any }>();
+  const { selectedCard } = location.state || {};
+
+  if (selectedCard) {
+   
+
   return (
     <IonPage>
       <IonHeader>
@@ -18,21 +26,20 @@ const Tab2: React.FC = () => {
           </IonToolbar>
         </IonHeader>
         <div className="view-container">
-          <IonImg 
-            src="https://docs-demo.ionic.io/assets/madison.jpg"
-            alt="The Wisconsin State Capitol building in Madison, WI at night" ></IonImg>
-
+          <Back/>
+          <IonImg className = "image-detail" src={selectedCard.src} alt={selectedCard.title}  />
           <div className="metadata">
-            <h6>canon-ixus.jpg</h6>
-            <h6>Taken on July 20 2023</h6>
+            <h6>{selectedCard.title}</h6>
+            <h6>Taken on {selectedCard.date}</h6>
             <h6>Description</h6>
-            <p> The Wisconsin State Capitol building in Madison, WI at night</p>
+            <p>{selectedCard.Description}</p>
           </div>
         </div>
-
       </IonContent>
     </IonPage>
   );
+}
+return <Redirect to="/tab1" />;
 };
 
 export default Tab2;

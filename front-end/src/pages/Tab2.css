@@ -1,16 +1,17 @@
 .image-detail {
     display:flex; 
     margin-top: 200px;
-    margin-left: 20px;
+    margin-left: 150px;
     justify-content: center;
     align-items : flex-end;
     height: 500px;
     width: 500px;
+    margin-bottom: 150px;
 }
 
 .view-container{
     display: flex;
-    justify-content: center;
+    justify-content: left;
     align-items: center;
     height: 100%;
     width: 100%;
@@ -21,4 +22,8 @@
     margin-left: 100px;
     display: flex;
     flex-direction: column;
+    width: 50%;
+    align-items: center; 
+    margin-right: 50px;
 }
+

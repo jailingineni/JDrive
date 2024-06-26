@@ -6,6 +6,7 @@ import Avatar from '../components/Avatar'
 import Pill from '../components/pill'
 import { IonSearchbarCustomEvent } from '@ionic/core';
 import { cards } from './data'; 
+import { useHistory } from 'react-router';
 
 
 
@@ -18,7 +19,7 @@ import { cards } from './data';
 
 
 const Tab1: React.FC = () => {
-
+  const history = useHistory();
 
   function onSearch(text: any, elements: string | any[]) {
     let filteredArray = [];
@@ -39,6 +40,11 @@ const Tab1: React.FC = () => {
     
 };
 
+const handleCardClick = (card) => {
+  history.push('/tab2', { selectedCard: card });
+};
+
+
 return (
   <IonPage>
     <IonHeader>
@@ -51,7 +57,7 @@ return (
       <Pill />
       <div className="all-card">
         {filtercards.map((el) => (
-          <IonCard key={el.id} routerLink="/tab2" onClick={() => setSelectedCard(el)}>
+          <IonCard key={el.id} onClick={() => handleCardClick(el) } >
             <img alt="Silhouette of mountains" src={el.src} height={el.height} width={el.width} />
             <IonCardHeader>
               <IonCardTitle>{el.title}</IonCardTitle>
