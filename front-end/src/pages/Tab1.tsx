@@ -3,23 +3,32 @@ import { searchCircle } from 'ionicons/icons';
 import './Tab1.css';
 import { useState } from 'react';
 import Avatar from '../components/Avatar'
-import Pill from '../components/pill'
+import Pill from '../components/PillGroup'
 import { IonSearchbarCustomEvent } from '@ionic/core';
 import { cards } from './data'; 
 import { useHistory } from 'react-router';
+import axios  from 'axios';
 
 
 
-// returns 
-//console.log(onSearch("do", [{name:'dog'}, {name:'cat'}, {name:'fish'}, {name:'dino'}])); // returns ["dog"]
-//console.log(onSearch("f", ['dog', 'cat', 'fish', 'dino'])); // returns ["fish"];
-//console.log( onSearch("d", ['dog', 'cat', 'fish', 'dino'])) // returns ["dog, dino"];
+/*
+
+async getData() => return cards
+
+const listofIds = await axios.get('ids/');
+
+for(const id of listOfIds){
+
+}
 
 
 
+// axios
+*/
 
 const Tab1: React.FC = () => {
   const history = useHistory();
+
 
   function onSearch(text: any, elements: string | any[]) {
     let filteredArray = [];
@@ -33,17 +42,38 @@ const Tab1: React.FC = () => {
   
    }
 
+  //  useEffect(()=>{
+
+  //   // only run once when the component 
+  //   // getData
+  //   // setCards()
+
+  //  },[])
+  
   const [filtercards, setFilteredCards]  = useState(cards)
 
   const handleSearchChange = (e: IonSearchbarCustomEvent<SearchbarInputEventDetail>) => {
     setFilteredCards(onSearch(e.target.value.toLowerCase(), cards));
-    
 };
 
 const handleCardClick = (card) => {
-  history.push('/tab2', { selectedCard: card });
+  history.push(`/tab2/${card.id}`);
 };
 
+const handlePillClick = (selectedTag) => {
+  const filteredCards = [];
+  if (!selectedTag) {
+    setFilteredCards(cards);
+  } else {
+    for (let i = 0; i < cards.length; i++) {
+      const card = cards[i];
+      if (card.tags && card.tags.includes(selectedTag)) {
+        filteredCards.push(card);
+      }
+    }
+    setFilteredCards(filteredCards);
+  }
+};
 
 return (
   <IonPage>
@@ -54,7 +84,10 @@ return (
     </IonHeader>
     <IonContent fullscreen>
       <IonSearchbar onIonInput={(e) => handleSearchChange(e)} searchIcon={searchCircle} placeholder="Custom Search Icon"></IonSearchbar>
-      <Pill />
+      <div className="PillContainer" >
+        <Pill cards = {cards} onPillClick={handlePillClick}/>
+      </div>
+     
       <div className="all-card">
         {filtercards.map((el) => (
           <IonCard key={el.id} onClick={() => handleCardClick(el) } >
@@ -72,8 +105,7 @@ return (
   </IonPage>
 );
 };
+
 export default Tab1;
-function setSearch(value: any) {
-  throw new Error('Function not implemented.');
-}
+
 

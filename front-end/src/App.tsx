@@ -51,24 +51,11 @@ setupIonicReact();
 const App: React.FC = () => (
   <IonApp>
     <IonReactRouter>
-      <IonTabs>
-        <IonRouterOutlet>
-          <Route exact path="/tab1">
-            <Tab1 />
-          </Route>
-          <Route exact path="/tab2">
-            <Tab2 />
-          </Route>
-          <Route path="/tab3">
-            <Tab3 />
-          </Route>
-          <Route exact path="/">
-            <Redirect to="/tab1  " />
-          </Route>
-        </IonRouterOutlet>
-        <IonTabBar>
-        </IonTabBar>
-      </IonTabs>
+      <IonRouterOutlet>
+        <Route path="/tab1" component={Tab1} exact={true} />
+        <Route path="/tab2/:id?" component={Tab2} exact={true} />
+        <Redirect from="/" to="/tab1" exact={true} />
+      </IonRouterOutlet>
     </IonReactRouter>
   </IonApp>
 );
