@@ -1,10 +1,12 @@
 /*
 fileName = string
 */
+
 const fs = require ("fs"); //import filesystem module
 const path = require('path');
 const jimp = require('jimp-watermark');
 const { error } = require("console");
+const details = require('./details');
 var ExifImage = require('exif').ExifImage;
 
 function getPictureById(fileName, folder) 
@@ -62,52 +64,72 @@ function applyWatermark(fileName) {
 }
 
 function getImageMetadata(fileName) {
-    
-    const directoryPath = 'Sample Images'
-    const filePath = path.join(directoryPath, fileName + '.jpg');
-    if (fs.existsSync (filePath)) {
-        try {
-    new ExifImage({ image : filePath }, function (error, exifData) {
+    return new Promise((resolve, reject) => {
+        const directoryPath = path.join(__dirname, 'Sample Images');
+        const filePath = path.join(directoryPath, fileName + '.jpg');
+
+        if (fs.existsSync(filePath)) {
+            try {
+                new ExifImage({ image: filePath }, function (error, exifData) {
+                    if (error) {
+                        console.error('Error reading EXIF data:', error);
+                        reject('Error processing metadata');
+                    } else {
+                        console.log('EXIF Data:', exifData); // Debugging step
+                        const dates = {
+                            ModifyDate: exifData.image.ModifyDate,
+                            DateTimeOriginal: exifData.exif.DateTimeOriginal,
+                            CreateDate: exifData.exif.CreateDate
+                        };
+                        resolve(dates);
+                    }
+                });
+            } catch (error) {
+                console.error('Error Processing Metadata', error);
+                reject('Error Processing Metadata');
+            }
+        } else {
+            console.log('File or Path does not exist');
+            resolve(false);
+        }
     });
-    } catch (error) {
-        console.error('Error Processing Metadata', error);
-        throw new Error ('Error Processing Metadata');
-    }
-    }
-    else {
-        console.log ('File or Path does not Exist');
-        return false;
-    }
-
-}
-getListOfPictures();
-
-
-function getListOfPictures(){
-    const testFolder = './Sample Images/';
-    if (testFolder == false) {
-        console.log ("Directory is Invalid")
-        throw new Error ('Cannot Find Directory');
-    }
-    let fileList = [];
-    
-    fs.readdirSync(testFolder).forEach(file => {
-        fileList.push(file);
-    });
-    for (let i = 0; i < fileList.length; i++) {
-        fileList[i] = fileList[i].replaceAll('.jpg', '');
-    }
-    return fileList;
-   
-
-
-
 }
 
 
+function getDetailsByFilename(filename) {
+const fileDetails = details.find(item => item.id === filename);
+return fileDetails
+}
+
+function getDeets() {
+    return details;
+}
+
+// function uploadImage (filename) {
+
+// }
+
+// function uploadDetails (filename) {
+
+// }
+
+// function getDetailsByIndex(index) {
+//     if (index >= 0 && index < details.length) {
+//         return details[index].title; // Return the title of the object at the specified index
+//     } else {
+//         throw new Error('Index out of bounds');
+//     }
+// }
+
+// Example usage:
+// const fileName = "canon-ixus.jpg";
+// const index = 1;
+
+// console.log("Details by filename:", getDetailsByFilename(fileName));
+// console.log("Title by index:", getImageMetadata('olympus-d320l'));
 
 
 
 module.exports = {
-    getImageMetadata, getPictureById, applyWatermark, getListOfPictures
+    getImageMetadata, getPictureById, applyWatermark, getDetailsByFilename, getDeets
 }

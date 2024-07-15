@@ -6,7 +6,11 @@
   gap: 20px;
   padding: 20px;
 }
-
+.Upload_Button {
+  display: flex;
+  align-items: center;
+  padding-left: 1000px;
+}
 .custom-card {
 width: 300px; /* Set the desired width */
 height: 225px; /* Set the desired height */

@@ -13,7 +13,7 @@ import { IonReactRouter } from '@ionic/react-router';
 import { ellipse, square, triangle } from 'ionicons/icons';
 import Tab1 from './pages/Tab1';
 import Tab2 from './pages/Tab2';
-import Tab3 from './pages/Tab3';
+import Tab3 from './pages/upload';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -45,6 +45,9 @@ import '@ionic/react/css/palettes/dark.system.css';
 /* Theme variables */
 import './theme/variables.css';
 import React from 'react';
+import upload from './pages/upload';
+import LoginPage from './pages/login';
+import SignupPage from './pages/signup';
 
 setupIonicReact();
 
@@ -54,6 +57,9 @@ const App: React.FC = () => (
       <IonRouterOutlet>
         <Route path="/tab1" component={Tab1} exact={true} />
         <Route path="/tab2/:id?" component={Tab2} exact={true} />
+        <Route path="/upload/" component={upload} exact={true} />
+        <Route path="/login/" component={LoginPage} exact={true} />
+        <Route path="/signup/" component={SignupPage} exact={true} />
         <Redirect from="/" to="/tab1" exact={true} />
       </IonRouterOutlet>
     </IonReactRouter>
