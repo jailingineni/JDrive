@@ -7,6 +7,7 @@ const path = require('path');
 const jimp = require('jimp-watermark');
 const { error } = require("console");
 const details = require('./details');
+const dataFilePath = path.join(__dirname, 'data.json');
 var ExifImage = require('exif').ExifImage;
 
 function getPictureById(fileName, folder) 
@@ -16,7 +17,7 @@ function getPictureById(fileName, folder)
     if (folder) {
         const directoryPath = folder
     }
-        const filePath = path.join(directoryPath, fileName + '.jpg');
+        const filePath = path.join(directoryPath, fileName);
     
     
     if (fs.existsSync (filePath)) {
@@ -40,8 +41,8 @@ function applyWatermark(fileName) {
 
    const directoryPath = 'Sample Images'
    const outputDirectory = 'outputs';
-   const filePath = path.join(directoryPath, fileName + '.jpg');
-   const outputFilePath = path.join(outputDirectory, fileName + '.jpg');
+   const filePath = path.join(directoryPath, fileName);
+   const outputFilePath = path.join(outputDirectory, fileName);
    if (fs.existsSync (filePath)) {
     try {
         let options = {
@@ -66,7 +67,7 @@ function applyWatermark(fileName) {
 function getImageMetadata(fileName) {
     return new Promise((resolve, reject) => {
         const directoryPath = path.join(__dirname, 'Sample Images');
-        const filePath = path.join(directoryPath, fileName + '.jpg');
+        const filePath = path.join(directoryPath, fileName);
 
         if (fs.existsSync(filePath)) {
             try {
@@ -97,39 +98,43 @@ function getImageMetadata(fileName) {
 
 
 function getDetailsByFilename(filename) {
-const fileDetails = details.find(item => item.id === filename);
-return fileDetails
+    const data = loadData();
+    const fileDetails = data.find(item => item.id === filename);
+    return fileDetails;
 }
 
-function getDeets() {
-    return details;
+
+
+function loadData() {
+    if (fs.existsSync(dataFilePath)) {
+      const rawData = fs.readFileSync(dataFilePath, 'utf-8');
+      return JSON.parse(rawData);
+    }
+    return [];
+  }
+
+
+
+  function saveData(data) {
+    fs.writeFileSync(dataFilePath, JSON.stringify(data, null, 2), 'utf-8');
+  }
+
+  function deleteData(IDToDelete) {
+    let currData = loadData();
+    const indexToDelete = currData.find(item => item.id === IDToDelete);
+
+    if (IDToDelete !== -1) {
+        // Remove item from array
+        currData.splice(IDToDelete, 1);
+         // Save updated data
+         saveData(currData);
+         return true; 
+    }return false;
+
+
 }
-
-// function uploadImage (filename) {
-
-// }
-
-// function uploadDetails (filename) {
-
-// }
-
-// function getDetailsByIndex(index) {
-//     if (index >= 0 && index < details.length) {
-//         return details[index].title; // Return the title of the object at the specified index
-//     } else {
-//         throw new Error('Index out of bounds');
-//     }
-// }
-
-// Example usage:
-// const fileName = "canon-ixus.jpg";
-// const index = 1;
-
-// console.log("Details by filename:", getDetailsByFilename(fileName));
-// console.log("Title by index:", getImageMetadata('olympus-d320l'));
-
-
+  
 
 module.exports = {
-    getImageMetadata, getPictureById, applyWatermark, getDetailsByFilename, getDeets
+    getImageMetadata, getPictureById, applyWatermark, getDetailsByFilename, loadData, saveData, deleteData
 }

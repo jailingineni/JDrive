@@ -1,6 +1,10 @@
 .Card{
     display: flex;
     flex-direction: column;
-    width:400px;
-    height: 300px;
+    align-items: center;
+    justify-content: center;
+    margin-left: 20px;
+    margin-top: 20px;
+    width:500px;
+    height: 600px;
 }

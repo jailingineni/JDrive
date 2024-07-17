@@ -26,7 +26,8 @@ transition: transform 0.3s;
 }
 
 .card-image {
-   max-height: 500px;
+   height:500px;
+   aspect-ratio: auto;
 
   }
   
@@ -38,3 +39,20 @@ transition: transform 0.3s;
     font-size: 0.9em;
     color: #666;
   }
+
+  .Bottom-Row {
+    display: flex;
+    justify-content: flex-end;
+    padding: 16px;
+    position: absolute;
+    bottom: 0;
+    width: 100%
+  }
+  
+  .DeleteButton {
+    margin: auto;
+    color: red
+  
+
+
+}

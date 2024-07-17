@@ -1,0 +1,20 @@
+.form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }
+  
+  .form {
+    max-width: 300px;
+    width: 100%;
+    padding: 20px;
+    background-color: rgb(18, 16, 16);
+    border-radius: 20px;
+   
+  }
+  
+  .form ion-input {
+    margin-bottom: 15px;
+  }
+  

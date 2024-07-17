@@ -6,8 +6,8 @@ import { IonButton } from '@ionic/react';
 function Back() {
     return (
         <div className="displayContainer">
-            <IonButton className="BackButton" routerLink="/tab1" >
-                Back to Tab 1
+            <IonButton className="BackButton" routerLink="/home" >
+                Back to Home
             </IonButton>
         </div>
     );

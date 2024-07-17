@@ -1,14 +1,16 @@
+// LoginPage.tsx
 import React, { useState } from 'react';
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonInput, IonButton, IonItem, IonLabel } from '@ionic/react';
+import { IonContent, IonInput, IonButton, IonPage, IonHeader, IonToolbar, IonTitle } from '@ionic/react';
+import './login.css'; // Assuming you have custom styles in login.css
 
 const SignupPage: React.FC = () => {
-  const [firstName, setFirstName] = useState<string>('');
-  const [lastName, setLastName] = useState<string>('');
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
-
+  const [FirstName, setFirstName] = useState('');
+  const [LastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const handleLogin = () => {
+    // Implement your login logic here, e.g., authenticate user
     console.log('Username:', email);
     console.log('Password:', password);
   };
@@ -17,27 +19,48 @@ const SignupPage: React.FC = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Signup</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent className="ion-padding">
-      <IonItem>
-          <IonLabel position="floating">First Name</IonLabel>
-          <IonInput type="text" value={firstName} onIonChange={(e) => setFirstName(e.detail.value!)}></IonInput>
-        </IonItem>
-        <IonItem>
-          <IonLabel position="floating">Last Name</IonLabel>
-          <IonInput type="text" value={lastName} onIonChange={(e) => setLastName(e.detail.value!)}></IonInput>
-        </IonItem>
-        <IonItem>
-          <IonLabel position="floating">Email</IonLabel>
-          <IonInput type="text" value={email} onIonChange={(e) => setEmail(e.detail.value!)}></IonInput>
-        </IonItem>
-        <IonItem>
-          <IonLabel position="floating">Password</IonLabel>
-          <IonInput type="password" value={password} onIonChange={(e) => setPassword(e.detail.value!)}></IonInput>
-        </IonItem>
-        <IonButton expand="full" onClick={handleLogin}>Login</IonButton>
+        <div className="form-container">
+          <div className="form">
+            <IonTitle className="ion-text-center" style={{ marginBottom: '10px' }}>Sign Up</IonTitle>
+            <IonInput
+              value={FirstName}
+              placeholder="First Name"
+              onIonInput={(e: any) => setFirstName(e.target.value)}
+            ></IonInput>
+             <IonInput
+              value={LastName}
+              placeholder="Last Name"
+              onIonInput={(e: any) => setLastName(e.target.value)}
+            ></IonInput>
+            <IonInput
+              value={email}
+              placeholder="Email"
+              onIonInput={(e: any) => setEmail(e.target.value)}
+            ></IonInput>
+            <IonInput
+              type="password"
+              value={password}
+              placeholder="Password"
+              onIonInput={(e: any) => setPassword(e.target.value)}
+            ></IonInput>
+             <IonInput
+              type="password"
+              value={password}
+              placeholder="Confirm Password"
+              onIonInput={(e: any) => setPassword(e.target.value)}
+            ></IonInput>
+            <IonButton expand="block" onClick={handleLogin}>Sign Up</IonButton>
+            <div className="signup-box">
+              <p className="ion-text-center">Have An Account?</p>
+              <div style={{ display: 'flex', justifyContent: 'center' }}>
+                 <a href="/login">Login Here</a>
+                </div>
+            </div>
+          </div>
+        </div>
       </IonContent>
     </IonPage>
   );

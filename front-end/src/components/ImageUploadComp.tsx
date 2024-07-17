@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle } from '@ionic/react';
+import './ImageUpload.css'
 
 const ImageUpload: React.FC = () => {
   const [imagePreview, setImagePreview] = useState<string>('');
@@ -25,11 +26,10 @@ const ImageUpload: React.FC = () => {
   return (
     <IonCard className='Card'>
       <IonCardHeader>
-        <IonCardTitle>Card Title</IonCardTitle>
-        <IonCardSubtitle>Card Subtitle</IonCardSubtitle>
+        <IonCardTitle>Upload Image</IonCardTitle>
+  
       </IonCardHeader>
 
-      <IonCardContent>Here's a small text description for the card content. Nothing more, nothing less.</IonCardContent>
 
       {/* Hidden file input for selecting images */}
       <input

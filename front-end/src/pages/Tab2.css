@@ -4,9 +4,10 @@
     margin-left: 150px;
     justify-content: center;
     align-items : flex-end;
-    height: 500px;
-    width: 500px;
-    margin-bottom: 150px;
+    height: auto;
+    max-height: 500px;
+    width: 900px;
+    margin-bottom: 200px;
 }
 
 .view-container{

@@ -5,8 +5,12 @@ const fs = require('fs');
 const Jimp = require("jimp");
 const path = require('path');
 const multer = require ("multer");
+const bcrypt = require('bcryptjs');
 var cors = require('cors')
 const bodyParser = require('body-parser');
+const { v4: uuidv4 } = require('uuid');
+const dataFilePath = path.join(__dirname, 'data.json');
+const usersFilePath = path.join(__dirname, 'users.json');
 const storage = multer.diskStorage({ 
     destination: (req, file, cb) => {
          cb(null, 'Sample Images');
@@ -21,38 +25,12 @@ const upload = multer({storage: storage })
 app.set('view engine', 'ejs');
 
 
-const {getPictureById, getImageMetadata, applyWatermark, getDetailsByFilename, getDeets} = require('./index.js');
+const {getPictureById, getImageMetadata, applyWatermark, getDetailsByFilename, loadData, saveData, deleteData} = require('./index.js');
 const details = require('./details.js');
 const { ExifImage } = require('exif');
 
 
-// GET image/<filename>
-// GET image/<filename>/metadata
 
-// POST image/watermark 
-  // return true/fals
- // -> returns base64 image of the watermarked thing
-
- // error codes
- // render images in response (see how to return b64)
-
- // GET image/list
-    // returns an list of images in the directory []
-
-
-
-
-/*
-
-try{
-    // code to run
-
-    // send the success status code and response
-}catch(ex){
-    // send the api response with the status code
-    // and error message
-}
-*/
 app.use(cors());
 app.use(bodyParser.json());
 
@@ -86,7 +64,8 @@ app.get('/image/:filename/getDetails', (req, res) => {
     }
 });
 app.get('/image/deets', (req, res) => {
-    res.send({details});
+    const dataDeets = loadData();
+    res.json({dataDeets});
 });
 
   app.get('/image/:filename', (req, res) => {
@@ -146,39 +125,79 @@ app.post('/image/:filename/watermark', (req, res) => {
 });
 
 app.post('/image/addDetails', (req, res) => {
-    const { title, subtitle, id} = req.body;
-
+    const { title, subtitle, id, Description } = req.body;
+  
+  
     const newDetail = {
       title,
       subtitle, 
-      id
+      id, 
+      Description
     };
-    details.push(newDetail);
   
-
+    const newData = loadData();
+    newData.push(newDetail);
+    saveData(newData);
   
-    // const detailsString = `const details = ${JSON.stringify(details, null, 4)};\n\nmodule.exports = details;`;
-  
-    // fs.writeFile(detailsPath, detailsString, (err) => {
-    //   if (err) {
-    //     console.error('Failed to write to file', err);
-    //     return res.status(500).json({ message: 'Failed to write to file' });
-    //   }
-      res.status(200).json({ message: 'New detail added successfully', title });
-
+    res.status(200).json({ message: 'New detail added successfully', title });
   });
   
   
-//   app.get('/uploadImage', (req, res) => {
-//     res.render("uploadImage");
-//   });
+  
 
-  app.post('/uploadImage', upload.single('image'), (req, res) => {
+app.post('/uploadImage', upload.single('image'), (req, res) => {
 const uniqueId = req.file.filename;
-const modifiedId = uniqueId.replace('.jpg', '');
-res.send(modifiedId);
+res.send(uniqueId);
 });
 
+app.delete('/deleteCard/:id', (req, res) => {
+    const indexToDelete = req.params.data
+    const deleted = deleteData(indexToDelete)
+
+res.send({deleteData})
+
+});
+
+app.post('/users/create', (req, res) => {
+    const { FirstName, LastName, Email, Password } = req.body;
+  
+    // Generate a unique ID for the user
+    const userId = uuidv4();
+    
+    bcrypt.hash(Password, 10, (err, hashedPassword) => {
+        if (err) {
+          console.error('Error hashing password:', err);
+          res.status(500).send('Error creating user');
+          return;
+        }
+  
+    // Construct user object with unique ID
+    const newUser = {
+      id: userId,
+      FirstName,
+      LastName,
+      Email,
+      Password: hashedPassword
+    };
+  
+    // Convert user object to JSON string
+    const userData = JSON.stringify(newUser, null, 2);
+  
+    // Ensure the 'users' folder exists
+
+  
+    // Write to a JSON file within the 'users' folder
+    fs.writeFile(usersFilePath, userData, (err) => {
+      if (err) {
+        console.error('Error writing user data to file:', err);
+        res.status(500).send('Error saving user');
+        return;
+      }
+      console.log(`User data saved to ${usersFilePath}`);
+      res.status(200).send('User created successfully');
+    });
+  });
+});
 
 
 app.listen(port, () => {
