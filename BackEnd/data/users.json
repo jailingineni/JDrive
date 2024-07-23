@@ -1,0 +1,30 @@
+[
+  {
+    "id": "2c8f19f9-d8f7-4b56-a4fb-4f1427176249",
+    "FirstName": "jaideep",
+    "LastName": "lingineni",
+    "Email": "jailingineni@gmail.com",
+    "Password": "$2a$10$E43ntrfKX4fC3zqnjcs1uuYne/S7TIUur6mL14I5IaEZzbE18t/ga"
+  },
+  {
+    "id": "13cc6a0c-ac18-4dcb-aae8-e13e1ea82f24",
+    "FirstName": "jai",
+    "LastName": "lin",
+    "Email": "jailingineni",
+    "Password": "$2a$10$q2AIb0kBSW.2j6eYh4aQnurH1rNaAqFX1uMwlvsqh0gwG2LhEFbXC"
+  },
+  {
+    "id": "89f8246e-1918-4629-8583-efd5301128a4",
+    "FirstName": "jack",
+    "LastName": "smith",
+    "Email": "as",
+    "Password": "$2a$10$YOMyqS/Oq.76ZoodkMpFaur/FycnNqxOwhwxp2Z18/ZE8n92WF6cW"
+  },
+  {
+    "id": "de266edb-169d-40ec-a3fb-f3843f7723a4",
+    "FirstName": "Ravi",
+    "LastName": "Lin",
+    "Email": "rlingineni@live.com",
+    "Password": "$2a$10$RhecZIChton54UAWflrExeGqsoDxN5IYzSgp0/ulDMZqO9MaBVEi2"
+  }
+]

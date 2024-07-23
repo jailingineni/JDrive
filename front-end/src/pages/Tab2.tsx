@@ -5,6 +5,7 @@ import './Tab2.css';
 import Back from '../components/Back';
 import axios from 'axios';
 import { BASEURL } from './helpers/url';
+import { getLoggedInUser } from '../store';
 
 
 type PageLoadingStatus = 'Loading' | 'Error' | 'Success';
@@ -13,13 +14,13 @@ const Tab2: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const [selectedCard, setSelectedCard] = useState<any>(null);
   const [pageState, setPageState] = useState<PageLoadingStatus>('Loading')
-
+  const userID = getLoggedInUser();
 
   useEffect(() => {
     const fetchCardDetails = async () => {
       try {
         const metadataResponse = await axios.get(`${BASEURL}/image/${id}/metadata`);
-        const detailsResponse = await axios.get(`${BASEURL}/image/${id}/getDetails`);
+        const detailsResponse = await axios.get(`${BASEURL}/image/${id}/getDetails/${userID}`);
 
         // Combine metadata and details
         const combinedData = {

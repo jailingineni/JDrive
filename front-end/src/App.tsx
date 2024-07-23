@@ -48,22 +48,42 @@ import React from 'react';
 import upload from './pages/upload';
 import LoginPage from './pages/login';
 import SignupPage from './pages/signup';
+import { getLoggedInUser } from './store';
+import Upload from './pages/upload';
+
 
 setupIonicReact();
 
-const App: React.FC = () => (
-  <IonApp>
-    <IonReactRouter>
-      <IonRouterOutlet>
-        <Route path="/home" component={Tab1} exact={true} />
-        <Route path="/details/:id?" component={Tab2} exact={true} />
-        <Route path="/upload/" component={upload} exact={true} />
-        <Route path="/login/" component={LoginPage} exact={true} />
-        <Route path="/signup/" component={SignupPage} exact={true} />
-        <Redirect from="/" to="/home" exact={true} />
-      </IonRouterOutlet>
-    </IonReactRouter>
-  </IonApp>
-);
+
+const ProtectedRoute = ({ children }) => {
+  const user = getLoggedInUser();
+
+  if (user === "null") {
+    return <Redirect to="/login" />;
+  }
+
+  return children;
+};
+
+
+const App: React.FC = () => {
+
+  return (
+    <IonApp>
+      <IonReactRouter>
+        <IonRouterOutlet>
+          <Route path="/login" component={LoginPage} exact={true} />
+          <Route path="/signup" component={SignupPage} exact={true} />
+          <ProtectedRoute>
+          <Route path="/home" component={Tab1} exact={true} />
+          <Route path="/details/:id?" component={Tab2} exact={true} />
+          <Route path="/upload" component={Upload} exact={true} />
+          </ProtectedRoute>
+        </IonRouterOutlet>
+      </IonReactRouter>
+    </IonApp>
+  );
+};
+
 
 export default App;

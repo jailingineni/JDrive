@@ -8,6 +8,7 @@ import { IonSearchbarCustomEvent } from '@ionic/core';
 import { useHistory } from 'react-router';
 import axios from 'axios';
 import { BASEURL } from './helpers/url';
+import { getLoggedInUser, setLoggedInUser } from '../store';
 
 type Card = {
   ID: string;
@@ -19,14 +20,17 @@ const Tab1: React.FC = () => {
   const [cards, setCards] = useState<Card[]>([]);
   const [filteredCards, setFilteredCards] = useState<Card[]>([]);
   const history = useHistory();
+  const userID = getLoggedInUser();
 
   useEffect(() => {
     fetchData();
+   
+    console.log("HT FOM TAB 1" +  userID)
   }, []);
 
   const fetchData = async () => {
     try {
-      const response = await axios.get(`${BASEURL}/image/deets`);
+      const response = await axios.get(`${BASEURL}/image/deets/${userID}`);
       const dataDeets = response.data.dataDeets;
       const cardData: Card[] = dataDeets.map((item: any) => ({
         ID: item.id,
@@ -64,9 +68,19 @@ const Tab1: React.FC = () => {
     }
   };
 
+  const handleLogoutClick = () => {
+    if (getLoggedInUser()) {
+      console.log("Bye" + getLoggedInUser());
+      setLoggedInUser(null);
+      history.push('/login')
+      window.location.reload();
+     
+    }
+
+  };
   const DeleteCard = async (selectedCard: Card) => {
     try {
-      await axios.delete(`${BASEURL}/deleteCard/${selectedCard.ID}`);
+      await axios.delete(`${BASEURL}/deleteCard/${selectedCard.ID}/${userID}`);
       console.log('Card deleted successfully');
       fetchData(); // Refresh the cards after deleting
     } catch (error) {
@@ -81,6 +95,7 @@ const Tab1: React.FC = () => {
           <IonTitle>JDrive</IonTitle>
           <IonButtons slot="end">
             <IonButton className='Upload_Button' style={{ width: '100%', marginRight: '16px', marginTop: '15px', marginBottom: '15px' }} routerLink="/upload">Upload</IonButton>
+            <IonButton style={{ width: '100%', marginRight: '16px', marginTop: '15px', marginBottom: '15px' }} onClick={handleLogoutClick} > Logout </IonButton>
           </IonButtons>
         </IonToolbar>
       </IonHeader>

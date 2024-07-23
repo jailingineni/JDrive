@@ -7,7 +7,8 @@ const path = require('path');
 const jimp = require('jimp-watermark');
 const { error } = require("console");
 const details = require('./details');
-const dataFilePath = path.join(__dirname, 'data.json');
+let LoggedInUser = '';
+const usersFilePath = path.join(__dirname, './data/users.json');
 var ExifImage = require('exif').ExifImage;
 
 function getPictureById(fileName, folder) 
@@ -97,37 +98,47 @@ function getImageMetadata(fileName) {
 }
 
 
-function getDetailsByFilename(filename) {
-    const data = loadData();
+function getDetailsByFilename(userId, filename) {
+    const dataFilePath = path.join(__dirname, 'data', 'details', `${userId}.json`);
+    const data = loadData(dataFilePath);
     const fileDetails = data.find(item => item.id === filename);
     return fileDetails;
 }
 
 
+function getUserByEmail(filename) {
+    const users = loadData(usersFilePath);
+    const fileDetails = users.find(users => users.Email === filename);
+    return fileDetails;
+}
 
-function loadData() {
-    if (fs.existsSync(dataFilePath)) {
-      const rawData = fs.readFileSync(dataFilePath, 'utf-8');
-      return JSON.parse(rawData);
-    }
-    return [];
+
+
+
+function loadData(path) {
+  if (fs.existsSync(path)) {
+    const rawData = fs.readFileSync(path, 'utf-8');
+    return JSON.parse(rawData);
+  }
+  return [];
+}
+
+
+
+function saveData(path, data) {
+    fs.writeFileSync(path, JSON.stringify(data, null, 2), 'utf-8');
   }
 
-
-
-  function saveData(data) {
-    fs.writeFileSync(dataFilePath, JSON.stringify(data, null, 2), 'utf-8');
-  }
-
-  function deleteData(IDToDelete) {
-    let currData = loadData();
+  function deleteData(userId, IDToDelete) {
+    const dataFilePath = path.join(__dirname, 'data', 'details', `${userId}.json`);
+    let currData = loadData(dataFilePath);
     const indexToDelete = currData.find(item => item.id === IDToDelete);
 
     if (IDToDelete !== -1) {
         // Remove item from array
         currData.splice(IDToDelete, 1);
          // Save updated data
-         saveData(currData);
+         saveData(dataFilePath,currData);
          return true; 
     }return false;
 
@@ -136,5 +147,5 @@ function loadData() {
   
 
 module.exports = {
-    getImageMetadata, getPictureById, applyWatermark, getDetailsByFilename, loadData, saveData, deleteData
+    getImageMetadata, getPictureById, applyWatermark, getDetailsByFilename, loadData, saveData, deleteData, getUserByEmail, LoggedInUser
 }

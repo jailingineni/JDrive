@@ -2,18 +2,64 @@
 import React, { useState } from 'react';
 import { IonContent, IonInput, IonButton, IonPage, IonHeader, IonToolbar, IonTitle } from '@ionic/react';
 import './login.css'; // Assuming you have custom styles in login.css
+import axios from 'axios';
+import { BASEURL } from './helpers/url';
 
 const SignupPage: React.FC = () => {
   const [FirstName, setFirstName] = useState('');
   const [LastName, setLastName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [Email, setEmail] = useState('');
+  const [Password, setPassword] = useState('');
+  const [ConfirmPassword, setConfirmPassword] = useState('');
+  const [error, setError] = useState('');
 
-  const handleLogin = () => {
-    // Implement your login logic here, e.g., authenticate user
-    console.log('Username:', email);
-    console.log('Password:', password);
-  };
+  
+
+  const handleSignUp = async () => {
+  
+    const newUser = {
+      FirstName,
+      LastName,
+      Email,
+      Password
+    };
+  
+    if (FirstName.length === 0 || LastName.length === 0) {
+      alert('Name Cannot be Empty');
+      return;
+    }
+    if (Email.length === 0) {
+      alert('Email Cannot be Empty');
+      return;
+    }
+    if (Password !== ConfirmPassword) {
+      alert('Passwords Do Not Match');
+      return;
+    }
+  
+    try {
+      let response = await axios.post(`${BASEURL}/users/create`, newUser);
+      
+      if (response.status == 202) {
+        alert ('email already exists');
+      }
+    
+    if (response.status === 201) {
+     alert('User created successfully');
+      // Clear form fields after successful submission
+      setFirstName('');
+      setLastName('');
+      setEmail('');
+      setPassword('');
+      setConfirmPassword('');
+    } 
+  }
+   catch (error) {
+   console.error('Error creating user:', error);
+   alert('Error creating user');
+  }
+};
+  
 
   return (
     <IonPage>
@@ -36,23 +82,23 @@ const SignupPage: React.FC = () => {
               onIonInput={(e: any) => setLastName(e.target.value)}
             ></IonInput>
             <IonInput
-              value={email}
+              value={Email}
               placeholder="Email"
               onIonInput={(e: any) => setEmail(e.target.value)}
             ></IonInput>
             <IonInput
               type="password"
-              value={password}
+              value={Password}
               placeholder="Password"
               onIonInput={(e: any) => setPassword(e.target.value)}
             ></IonInput>
              <IonInput
               type="password"
-              value={password}
+              value={ConfirmPassword}
               placeholder="Confirm Password"
-              onIonInput={(e: any) => setPassword(e.target.value)}
+              onIonInput={(e: any) => setConfirmPassword(e.target.value)}
             ></IonInput>
-            <IonButton expand="block" onClick={handleLogin}>Sign Up</IonButton>
+            <IonButton expand="block" onClick={handleSignUp}>Sign Up</IonButton>
             <div className="signup-box">
               <p className="ion-text-center">Have An Account?</p>
               <div style={{ display: 'flex', justifyContent: 'center' }}>

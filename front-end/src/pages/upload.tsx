@@ -6,6 +6,8 @@ import './upload.css';
 import { BASEURL } from '../pages/helpers/url';
 import { useHistory } from 'react-router-dom';
 import WarningBanner from '../components/WarningBanner';
+import { LoggedInUserId } from './login';
+import { getLoggedInUser } from '../store';
 
 
 const Upload: React.FC = () => {
@@ -56,7 +58,8 @@ const handleSubmit = async () => {
       return;
     }
     setShowWarning(false);
-    await axios.post(`${BASEURL}/image/addDetails`, newDetail);
+    let userId = getLoggedInUser()
+    await axios.post(`${BASEURL}/image/addDetails/${userId}`, newDetail);
     alert('Detail added successfully!');
     setTitle('');
     setSubtitle('');
