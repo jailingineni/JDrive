@@ -1,4 +1,4 @@
-This is a [React.js](https://react.dev/) project bootstrapped with [`ionic`).
+This is a [React.js](https://react.dev/) project designed with [`ionic framework`).
 
 
 ## ## Getting Started
