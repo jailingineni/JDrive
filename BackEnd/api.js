@@ -25,7 +25,7 @@ app.set('view engine', 'ejs');
 
 
 const {getPictureById, getImageMetadata, applyWatermark, getDetailsByFilename, loadData, saveData, deleteData, getUserByEmail} = require('./index.js');
-const details = require('./details.js');
+const details = require('./data/details');
 const { ExifImage } = require('exif');
 
 
@@ -33,7 +33,7 @@ const { ExifImage } = require('exif');
 app.use(cors());
 app.use(bodyParser.json());
 
-app.get('/', (req, res) => {
+app.get('/hi', (req, res) => {
     res.send("Hi");
   })
 

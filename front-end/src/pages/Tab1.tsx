@@ -74,7 +74,6 @@ const Tab1: React.FC = () => {
       setLoggedInUser(null);
       history.push('/login')
       window.location.reload();
-     
     }
 
   };
